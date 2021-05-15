@@ -1,0 +1,413 @@
+@rsize: 16px; // root font size
+@base-ltrspc-em: 0.01em;
+@base-font-width-em: 1 + @base-ltrspc-em;
+@line-pad-y: 0.5em;
+@line-height: 2em;
+@border-radius: (@line-height + 2*@line-pad-y) / 4;
+.line(@height: @line-height) {
+  padding: @line-pad-y 1em;
+  margin: 0;
+  line-height: @height;
+}
+
+.button {
+  border: none;
+  outline: none;
+  border-radius: 1.62em;
+  height: 3.24em;
+  width: 3.24em;
+  padding: 0; /* eliminate default button style paddings */
+  box-shadow: 0 0 1em grey;
+  font-size: 100%;
+  font-weight: bold;
+  line-height: 3.24em;
+  text-align: center;
+  text-decoration: none;
+  &::moz-focus-inner {
+    border: none;
+  }
+}
+
+body {
+  font-family: "Noto Sans CJK SC", sans-serif, "HeiTi SC", "Droid Sans";
+  font-size: @rsize;
+  letter-spacing: @base-ltrspc-em;
+  margin: 0 auto;
+  background-color: white;
+}
+
+p, h1, h2, h3, h4 { .line; }
+
+.title, .款, .项 {
+  margin: 0;
+  padding: 0;
+}
+
+.款>p:not(:first-child), .项>p:not(:first-child) {
+  text-indent: 1em;
+}
+
+.目 {
+  margin: 0;
+  padding-left: 1em;
+}
+
+.目>p { /* 目头罗马数字字符为半角，进 0.5em 正好占一字全长 */
+  text-indent: 0.5em;
+}
+
+#the-title, .编 {
+  font-family: "AR PL UMing CN", "华文中宋", "SimSun", "宋体", "HeiTi SC", "Droid Sans", serif;
+  font-weight: bold;
+}
+#the-title { font-size: @rsize + 8; }
+.编        { font-size: @rsize + 6; }
+
+.章 { font-size: @rsize + 4; }
+.节 {
+  font-family: "AR PL UKai CN", "KaiTi", "楷体", "HeiTi SC", "Droid Sans", serif;
+  font-size: @rsize + 2;
+}
+
+#the-title {
+  color: red;
+}
+
+#the-title+hr {
+  border: 0.5px solid red;
+  margin: 0.33em 0;
+}
+
+.entries-container {
+  margin: 0 auto;
+  padding: 0 0.5em;
+  background-color: inherit;
+  max-width: @rsize * (
+      @base-font-width-em * 28
+      + 2 // padding
+    )
+    + 1 // left-border
+    ;
+}
+
+#back-button {
+  &:extend(.button all);
+  position: fixed;
+  background-color: rgba(255, 0, 0, 0.87);
+  color: white;
+  right: 1em;
+  bottom: 1em;
+  z-index: 1000;
+}
+
+#share-button {
+  &:extend(.button all);
+  position: absolute;
+  background-color: rgba(0, 128, 0, 0.87);
+  color: white;
+  right: 1em;
+  z-index: 10;
+}
+
+#cancel-overlay {
+  &:extend(.button all);
+  background-color: rgb(255, 0, 0);
+  color: white;
+}
+
+#do-copy {
+  &:extend(.button all);
+  background-color: rgb(0, 128, 0);
+  color: white;
+}
+
+.entry, .title, nav {
+  min-width: 256px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.entry {
+  margin: 1em 0;
+  border-left: 1px solid red;
+}
+
+.entry a {
+  background-color: Azure;
+  border-radius: 0.31em;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.125em 0.3em;
+  margin: 0 0.2em;
+  box-shadow: 0 0 0.2em silver;
+}
+
+.entry-num { display: none; }
+
+#ref-to-original, #the-preface, .entry, .款, .项, .目 {
+  border-top-right-radius: @border-radius;
+  border-bottom-right-radius: @border-radius;
+}
+
+#the-title, #wxdyh_qrcode, .编, .章, .节 {
+  text-align: center;
+  border-radius: @border-radius;
+}
+
+#ref-to-original:target,
+#the-title:target,
+#the-preface:target,
+#wxdyh_qrcode:target,
+.编:target,
+.章:target,
+.节:target,
+.entry:target,
+.款:target,
+.项:target,
+.目:target {
+  background-color: #FFFFD8;
+  box-shadow: 0 0 0.31em silver;
+}
+
+#toc>h2 {
+  padding-left: 3em;
+  letter-spacing: 2em;
+}
+
+.li-head {
+  display: flex;
+  height: 1.7em;
+  justify-content: space-between;
+  margin: 0.5em 0; /* 1 - 0.5 = 0.5 */
+  line-height: 1.5;
+}
+
+.li-head a {
+  flex-shrink: 1;
+  overflow: hidden;
+  margin-left: 0;
+}
+
+.li-head span {
+  margin-left: 0.25em;
+  color: #BBB;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+nav ul {
+  padding-left: 1em;
+  list-style-type: none;
+}
+nav>ul { .line; }
+
+#overlay {
+  position: fixed;
+  display: none;
+  overflow: auto;
+  text-align: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+  background-color: rgba(255, 255, 255, 0.96);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+#share-text {
+  /* Horizontal margin should be 0; the value is set
+     dynamically. Using "auto" here allows centerring
+     effect on the block when browser width is being
+     adjusted.
+   */
+  .line(1.5); // as summary, shrink from 2
+  margin: 1em auto;
+  border: 1px solid silver;
+  box-shadow: 0 0 0.5em silver;
+  font-family: "Noto Sans CJK SC", sans-serif;
+  font-size: @rsize;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-y: scroll;
+  letter-spacing: @base-ltrspc-em;
+}
+
+#overlay-button-panel>button {
+  margin: 0 1em;
+}
+
+#qrcode { display: none; }
+#wxdyh_qrcode {
+  text-align: center;
+  padding: 1em;
+}
+#wxdyh_qrcode>img {
+  width: 130px;
+  border: 1px solid #44b549; /* 微信公众号网站主色 */
+}
+
+@media print {
+  @rsize: 10pt;
+
+  .entries-container { max-width: none; }
+  .entries-container>div, .entries-container>p, .编, .章, .节, .entry {
+    max-width: 314pt; /* width should remain the same across font-sizes */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .li-head { page-break-inside: avoid;}
+
+  #toc, #the-preface { page-break-after: always; }
+
+  .编 { page-break-before: always; }
+
+  .章, .节 { page-break-after: avoid; }
+
+  #back-button { display: none; }
+  #share-button { display: none; }
+  #ref-to-original { display: none; }
+
+  body {
+    font-size: @rsize;
+    font-family: "AR PL UMing CN", SimSun, "宋体", serif;
+  }
+
+  p { text-indent: 2 * @base-font-width-em; }
+  .title>p { text-indent: 0; }
+  .款>p:not(:first-child), .项>p:not(:first-child){
+    text-indent: 3 * @base-font-width-em;
+  }
+
+  .title + .款 > p:first-child {
+    text-indent: 0;
+  }
+
+  #the-preface>p, .title>p:first-child, .款>p, .项>p, .目>p {
+    margin: 0;
+    padding: 0 1em;
+  }
+
+  #the-title {
+    font-family: "华文中宋";
+    font-size: @rsize + 12;
+    font-weight: normal;
+  }
+  #the-title+hr {
+    border: 0.1pt solid red;
+  }
+
+  .title, .章 {
+    font-family: "黑体", "Noto Sans CJK SC", sans-serif;
+  }
+
+  .编 { font-size: @rsize + 8; font-weight: normal; }
+  .章 { font-size: @rsize + 4; font-weight: normal; }
+  .节 { font-size: @rsize + 4; font-weight: normal; }
+
+  .entry {
+    border-left: 0.2pt solid red;
+  }
+
+  .entry a {
+    background-color: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding: 0.125em 0;
+    border-radius: 0;
+    border-bottom: 0.2pt solid blue;
+  }
+
+  .entry-num {
+    display: block;
+    position: absolute;
+    right: 0;
+    width: 3 * @rsize/2;
+    text-align: right;
+    letter-spacing: 0;
+    line-height: 2em;
+  }
+
+  .entry-num:first-child {
+    left: 0;
+    text-align: left;
+  }
+
+  /* .entry-wrapper only appear in the Firefox specific solution */
+  .entry-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    padding: 0;
+  }
+  .entry-wrapper td { vertical-align: top; }
+  .entry-wrapper td:first-child,
+  .entry-wrapper td:nth-child(3) {
+    width: 3 * @rsize/2;
+  }
+
+  .li-head>a {
+    border-bottom: none;
+  }
+
+  .li-head>span {
+    color: black;
+  }
+
+  .li-head {
+    border-bottom: 0.2pt solid #BBB;
+  }
+
+  #ref-to-original:target,
+  #the-title:target,
+  #the-preface:target,
+  #wxdyh_qrcode:target,
+  .编:target,
+  .章:target,
+  .节:target,
+  .entry:target,
+  .款:target,
+  .项:target,
+  .目:target {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .title {
+    float: left;
+    min-height: 0;
+    min-width: 0;
+    /* For more precise width&height control, set
+       font-weight to normal. Bold font's width&height
+       may not respect the set font-size. */
+    font-weight: normal;
+  }
+  .title > p {
+    padding-right: @base-font-width-em;
+  }
+
+  #qrcode {
+    display: block;
+    text-align: right;
+    position: absolute;
+    left: 0;
+    bottom: 1em;
+    width: 45%;
+  }
+  #qrcode svg { border: 0.2pt solid blue; }
+
+  #wxdyh_qrcode {
+    position: absolute;
+    text-align: left;
+    right: 0;
+    bottom: 1em;
+    width: 45%;
+    padding: 0;
+  }
+  #wxdyh_qrcode>img { border: 0.2pt solid #44b549; }
+}
